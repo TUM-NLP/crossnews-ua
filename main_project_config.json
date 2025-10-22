@@ -1,0 +1,767 @@
+{
+    "view": {
+      "items": [
+        {
+          "type": "view.alert",
+          "theme": "danger",
+          "content": {
+            "type": "view.text",
+            "content": "У процесі розмітки новин ви можете зіткнутися з сенситивними або тривожними темами, оскільки новини рідко бувають нейтральними. Якщо ви відчуваєте, що не готові працювати з такими матеріалами, будь ласка, утримайтеся від участі в цьому проєкті."
+          }
+        },
+        {
+          "type": "view.alert",
+          "theme": "info",
+          "content": {
+            "type": "view.text",
+            "content": "Нагадуємо, що за інструкцією, самі по собі covid-19/вибори/смерть без будь-яких уточнень/конкретики не є об'єднуючою конкретною темою статей (оскільки це ДУЖЕ популярні теми для новин)"
+          }
+        },
+        {
+          "items": [
+            {
+              "items": [
+                {
+                  "type": "view.markdown",
+                  "content": "### Новина №1"
+                },
+                {
+                  "type": "view.link",
+                  "label": "Перегляньте побіжно оригінал опублікованої новини, це важливо для коректного порівняння новин",
+                  "url": {
+                    "type": "data.input",
+                    "path": "source1"
+                  },
+                  "content": "Посилання на сайт новини",
+                  "validation": {
+                    "type": "helper.if",
+                    "condition": {
+                      "type": "condition.not",
+                      "condition": {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.output",
+                          "path": "type_problems_article_1.link"
+                        },
+                        "to": true
+                      }
+                    },
+                    "then": {
+                      "type": "condition.link-opened",
+                      "hint": "Перейдіть на сайт новини, так буде зручно перевірити дату виходу статті",
+                      "url": {
+                        "type": "data.input",
+                        "path": "source1"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "view.collapse",
+                  "label": "Повний текст новини",
+                  "content": {
+                    "type": "view.text",
+                    "content": {
+                      "type": "data.input",
+                      "path": "text1"
+                    }
+                  }
+                },
+                {
+                  "type": "view.markdown",
+                  "content": "**Перший варіант сумаризації**"
+                },
+                {
+                  "type": "view.text",
+                  "content": {
+                    "type": "data.input",
+                    "path": "summ_text1"
+                  }
+                },
+                {
+                  "type": "view.markdown",
+                  "content": "**Другий варіант сумаризації**"
+                },
+                {
+                  "type": "view.text",
+                  "content": {
+                    "type": "data.input",
+                    "path": "summ_with_documents_text1"
+                  }
+                },
+                {
+                  "type": "field.checkbox",
+                  "label": "Є проблеми з оцінкою цієї новини",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_1"
+                  },
+                  "hint": "Позначте, якщо щось здається вам дивним/не працює в новині/суммаризації/тексті/посиланні на новину",
+                  "preserveFalse": true
+                },
+                {
+                  "type": "helper.if",
+                  "condition": {
+                    "type": "condition.equals",
+                    "data": {
+                      "type": "data.internal",
+                      "path": "problems_article_1"
+                    },
+                    "to": true
+                  },
+                  "then": {
+                    "type": "field.checkbox-group",
+                    "label": "Проблеми з цією новиною:",
+                    "preserveFalse": true,
+                    "options": [
+                      {
+                        "label": "Текст новини/сумаризацій незнайомою (не зазначеною в завданні) мовою",
+                        "value": "language"
+                      },
+                      {
+                        "label": "Цей текст - не новина, а щось інше",
+                        "value": "not_article"
+                      },
+                      {
+                        "label": "Посилання на новину не відкривається",
+                        "value": "link"
+                      },
+                      {
+                        "label": "Замість сумаризації якась помилка",
+                        "value": "summarization_error"
+                      },
+                      {
+                        "label": "Інше",
+                        "value": "other",
+                        "hint": "Виберіть, якщо проблеми немає в списку чекбоксів"
+                      }
+                    ],
+                    "data": {
+                      "type": "data.output",
+                      "path": "type_problems_article_1"
+                    },
+                    "validation": {
+                      "type": "helper.if",
+                      "condition": {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.internal",
+                          "path": "problems_article_1"
+                        },
+                        "to": true
+                      },
+                      "then": {
+                        "type": "condition.required",
+                        "hint": "Виберіть хоча б одну з опцій"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "helper.if",
+                  "condition": {
+                    "type": "condition.equals",
+                    "data": {
+                      "type": "data.output",
+                      "path": "type_problems_article_1.other"
+                    },
+                    "to": true
+                  },
+                  "then": {
+                    "type": "field.text",
+                    "label": "Опишіть Вашу проблему з оцінкою цієї новини",
+                    "placeholder": "Що інше?",
+                    "data": {
+                      "type": "data.output",
+                      "path": "comment_which_problems_article_1"
+                    },
+                    "validation": {
+                      "type": "helper.if",
+                      "condition": {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.output",
+                          "path": "type_problems_article_1.other"
+                        },
+                        "to": true
+                      },
+                      "then": {
+                        "type": "condition.required",
+                        "hint": "Опишіть проблему"
+                      }
+                    }
+                  }
+                }
+              ],
+              "type": "view.list"
+            },
+            {
+              "items": [
+                {
+                  "type": "view.markdown",
+                  "content": "### Новина №2"
+                },
+                {
+                  "type": "view.link",
+                  "url": {
+                    "type": "data.input",
+                    "path": "source2"
+                  },
+                  "label": "Перегляньте побіжно оригінал опублікованої новини, це важливо для коректного порівняння новин",
+                  "content": "Посилання на сайт новини",
+                  "validation": {
+                    "type": "helper.if",
+                    "condition": {
+                      "type": "condition.not",
+                      "condition": {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.output",
+                          "path": "type_problems_article_2.link"
+                        },
+                        "to": true
+                      }
+                    },
+                    "then": {
+                      "type": "condition.link-opened",
+                      "hint": "Перейдіть на сайт новини, так буде зручно перевірити дату виходу статті",
+                      "url": {
+                        "type": "data.input",
+                        "path": "source2"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "view.collapse",
+                  "label": "Повний текст новини",
+                  "content": {
+                    "type": "view.text",
+                    "content": {
+                      "type": "data.input",
+                      "path": "text2"
+                    }
+                  }
+                },
+                {
+                  "type": "view.markdown",
+                  "content": "**Перший варіант сумаризації**"
+                },
+                {
+                  "type": "view.text",
+                  "content": {
+                    "type": "data.input",
+                    "path": "summ_text2"
+                  }
+                },
+                {
+                  "type": "view.markdown",
+                  "content": "**Другий варіант сумаризації**"
+                },
+                {
+                  "type": "view.text",
+                  "content": {
+                    "type": "data.input",
+                    "path": "summ_with_documents_text2"
+                  }
+                },
+                {
+                  "type": "field.checkbox",
+                  "label": "Є проблеми з оцінкою цієї новини",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_2"
+                  },
+                  "preserveFalse": true,
+                  "hint": "Позначте, якщо щось здається вам дивним/не працює в новині/суммаризації/тексті/посиланні на новину"
+                },
+                {
+                  "type": "helper.if",
+                  "condition": {
+                    "type": "condition.equals",
+                    "data": {
+                      "type": "data.internal",
+                      "path": "problems_article_2"
+                    },
+                    "to": true
+                  },
+                  "then": {
+                    "type": "field.checkbox-group",
+                    "label": "Проблеми з цією новиною:",
+                    "preserveFalse": true,
+                    "options": [
+                      {
+                        "label": "Текст новини/сумаризацій незнайомою (не зазначеною в завданні) мовою",
+                        "value": "language"
+                      },
+                      {
+                        "label": "Цей текст - не новина, а щось інше",
+                        "value": "not_article"
+                      },
+                      {
+                        "label": "Посилання на новину не відкривається",
+                        "value": "link"
+                      },
+                      {
+                        "label": "Замість сумаризації якась помилка",
+                        "value": "summarization_error"
+                      },
+                      {
+                        "label": "Інше",
+                        "value": "other",
+                        "hint": "Виберіть, якщо проблеми немає в списку чекбоксів"
+                      }
+                    ],
+                    "data": {
+                      "type": "data.output",
+                      "path": "type_problems_article_2"
+                    },
+                    "validation": {
+                      "type": "helper.if",
+                      "condition": {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.internal",
+                          "path": "problems_article_2"
+                        },
+                        "to": true
+                      },
+                      "then": {
+                        "type": "condition.required"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "helper.if",
+                  "condition": {
+                    "type": "condition.equals",
+                    "data": {
+                      "type": "data.output",
+                      "path": "type_problems_article_2.other"
+                    },
+                    "to": true
+                  },
+                  "then": {
+                    "type": "field.text",
+                    "label": "Опишіть Вашу проблему з оцінкою цієї новини",
+                    "placeholder": "Що інше?",
+                    "data": {
+                      "type": "data.output",
+                      "path": "comment_which_problems_article_2"
+                    },
+                    "validation": {
+                      "type": "helper.if",
+                      "condition": {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.output",
+                          "path": "type_problems_article_2.other"
+                        },
+                        "to": true
+                      },
+                      "then": {
+                        "type": "condition.required",
+                        "hint": "Опишіть проблему"
+                      }
+                    }
+                  }
+                }
+              ],
+              "type": "view.list"
+            }
+          ],
+          "type": "layout.columns"
+        },
+        {
+          "type": "view.divider"
+        },
+        {
+          "type": "view.markdown",
+          "content": "#### Як між собою співвідносяться ці дві новини?"
+        },
+        {
+          "type": "view.markdown",
+          "content": "**Чи збігаються головні дійові особи новин? (ХТО)**"
+        },
+        {
+          "type": "field.button-radio-group",
+          "options": [
+            {
+              "label": "У точності",
+              "value": "yes",
+              "hint": "Одна людина/група людей"
+            },
+            {
+              "label": "Частково (є перетини)",
+              "value": "partly",
+              "hint": "Одну або кілька дійових осіб згадано в обох статтях"
+            },
+            {
+              "label": "Ні",
+              "value": "no",
+              "hint": "Жодної спільної дійової особи"
+            },
+            {
+              "label": "У хоча б однієї статті немає дійових осіб",
+              "value": "incomparable",
+              "hint": "З хоча б однієї статті неможливо зрозуміти дійову особу, наприклад, це погодне зведення або гороскоп"
+            }
+          ],
+          "data": {
+            "type": "data.output",
+            "path": "result.who_same"
+          },
+          "validation": {
+            "type": "helper.if",
+            "condition": {
+              "type": "condition.all",
+              "conditions": [
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_1"
+                  },
+                  "to": false
+                },
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_2"
+                  },
+                  "to": false
+                }
+              ]
+            },
+            "then": {
+              "type": "condition.required",
+              "hint": "Виберіть одну з опцій"
+            }
+          }
+        },
+        {
+          "type": "view.markdown",
+          "content": "**Чи збігаються місця, в яких відбуваються події з новин? (ДЕ)**"
+        },
+        {
+          "type": "field.button-radio-group",
+          "options": [
+            {
+              "label": "У точності",
+              "value": "yes",
+              "hint": "Йдеться про одну й ту саму локацію в точності"
+            },
+            {
+              "label": "Частково (є перетини)",
+              "value": "partly",
+              "hint": "Наприклад, в одній статті вказана тільки країна, а в іншій - місто в межах цієї країни. Або ж у статтях зазначено кілька локацій, і частина з них збігається."
+            },
+            {
+              "label": "Ні",
+              "value": "no",
+              "hint": "Йдеться про різні місця, або міста, або країни"
+            },
+            {
+              "label": "Хоча б в одній статті місце подій зовсім не вказано",
+              "value": "incomparable",
+              "hint": "З хоча б однієї зі статей взагалі не можна зрозуміти або здогадатися про місце, де відбувалися події"
+            }
+          ],
+          "data": {
+            "type": "data.output",
+            "path": "result.where_same"
+          },
+          "validation": {
+            "type": "helper.if",
+            "condition": {
+              "type": "condition.all",
+              "conditions": [
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_1"
+                  },
+                  "to": false
+                },
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_2"
+                  },
+                  "to": false
+                }
+              ]
+            },
+            "then": {
+              "type": "condition.required",
+              "hint": "Виберіть одну з опцій"
+            }
+          }
+        },
+        {
+          "type": "view.markdown",
+          "content": "**Чи збігається час подій, що відбуваються в новинах? (КОЛИ)**"
+        },
+        {
+          "type": "field.button-radio-group",
+          "options": [
+            {
+              "label": "Одна й та сама подія за часом",
+              "value": "yes",
+              "hint": "Йдеться про час події, не написання статті"
+            },
+            {
+              "label": "У межах одного місяця",
+              "value": "partly",
+              "hint": "Йдеться про час події, не написання статті"
+            },
+            {
+              "label": "Різниця, більше ніж місяць",
+              "value": "no",
+              "hint": "Йдеться про час події, не написання статті"
+            },
+            {
+              "label": "З хоча б однієї статті неможливо встановити час події ",
+              "value": "incomparable",
+              "hint": "Йдеться про час події, не написання статті"
+            }
+          ],
+          "data": {
+            "type": "data.output",
+            "path": "result.when_same"
+          },
+          "validation": {
+            "type": "helper.if",
+            "condition": {
+              "type": "condition.all",
+              "conditions": [
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_1"
+                  },
+                  "to": false
+                },
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_2"
+                  },
+                  "to": false
+                }
+              ]
+            },
+            "then": {
+              "type": "condition.required",
+              "hint": "Виберіть одну з опцій"
+            }
+          }
+        },
+        {
+          "type": "view.markdown",
+          "content": "**Як співвідносяться теми/події новин? (ЩО)**"
+        },
+        {
+          "data": {
+            "path": "main_result",
+            "type": "data.output"
+          },
+          "options": [
+            {
+              "value": "similar",
+              "label": "Однакові",
+              "hint": "Йдеться про одну й ту саму подію"
+            },
+            {
+              "value": "somewhat_related",
+              "label": "Загальна конкретна тема",
+              "hint": "Новини в межах однієї події/одної конкретної теми, наприклад, новини про лісові пожежі на Луганщині у 2020 або введення комендантської години через covid-19 у різних країнах"
+            },
+            {
+              "value": "different",
+              "label": "Різні",
+              "hint": "Події зовсім різні або тема, що їх об'єднує, занадто неконкретна, часта для новин (covid-19, вибори та інше)"
+            }
+          ],
+          "validation": {
+            "type": "helper.if",
+            "condition": {
+              "type": "condition.all",
+              "conditions": [
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_1"
+                  },
+                  "to": false
+                },
+                {
+                  "type": "condition.equals",
+                  "data": {
+                    "type": "data.internal",
+                    "path": "problems_article_2"
+                  },
+                  "to": false
+                }
+              ]
+            },
+            "then": {
+              "type": "condition.required",
+              "hint": "Виберіть одну з опцій"
+            }
+          },
+          "type": "field.button-radio-group"
+        },
+        {
+          "type": "helper.if",
+          "condition": {
+            "type": "condition.equals",
+            "data": {
+              "type": "data.output",
+              "path": "main_result"
+            },
+            "to": "similar"
+          },
+          "then": {
+            "type": "field.text",
+            "data": {
+              "type": "data.output",
+              "path": "comment"
+            },
+            "validation": {
+              "type": "helper.if",
+              "condition": {
+                "type": "condition.all",
+                "conditions": [
+                  {
+                    "type": "condition.equals",
+                    "data": {
+                      "type": "data.internal",
+                      "path": "problems_article_1"
+                    },
+                    "to": false
+                  },
+                  {
+                    "type": "condition.equals",
+                    "data": {
+                      "type": "data.internal",
+                      "path": "problems_article_2"
+                    },
+                    "to": false
+                  }
+                ]
+              },
+              "then": {
+                "type": "condition.required",
+                "hint": "Дайте відповідь у 1-2 реченнях"
+              }
+            },
+            "label": "Про що обидві новини?"
+          },
+          "else": {
+            "type": "helper.if",
+            "condition": {
+              "type": "condition.equals",
+              "data": {
+                "type": "data.output",
+                "path": "main_result"
+              },
+              "to": "somewhat_related"
+            },
+            "then": {
+              "type": "field.text",
+              "data": {
+                "type": "data.output",
+                "path": "comment"
+              },
+              "validation": {
+                "type": "helper.if",
+                "condition": {
+                  "type": "condition.all",
+                  "conditions": [
+                    {
+                      "type": "condition.equals",
+                      "data": {
+                        "type": "data.internal",
+                        "path": "problems_article_1"
+                      },
+                      "to": false
+                    },
+                    {
+                      "type": "condition.equals",
+                      "data": {
+                        "type": "data.internal",
+                        "path": "problems_article_2"
+                      },
+                      "to": false
+                    }
+                  ]
+                },
+                "then": {
+                  "type": "condition.required",
+                  "hint": "Дайте відповідь у 1-2 реченнях"
+                }
+              },
+              "label": "Яка спільна конкретна тема у новин?"
+            },
+            "else": {
+              "type": "helper.if",
+              "condition": {
+                "type": "condition.equals",
+                "data": {
+                  "type": "data.output",
+                  "path": "main_result"
+                },
+                "to": "different"
+              },
+              "then": {
+                "type": "field.text",
+                "data": {
+                  "type": "data.output",
+                  "path": "comment"
+                },
+                "validation": {
+                  "type": "helper.if",
+                  "condition": {
+                    "type": "condition.all",
+                    "conditions": [
+                      {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.internal",
+                          "path": "problems_article_1"
+                        },
+                        "to": false
+                      },
+                      {
+                        "type": "condition.equals",
+                        "data": {
+                          "type": "data.internal",
+                          "path": "problems_article_2"
+                        },
+                        "to": false
+                      }
+                    ]
+                  },
+                  "then": {
+                    "type": "condition.required",
+                    "hint": "Дайте відповідь у 1-2 реченнях"
+                  }
+                },
+                "label": "Чому новини різні?"
+              }
+            }
+          }
+        }
+      ],
+      "type": "view.list"
+    },
+    "plugins": []
+  }

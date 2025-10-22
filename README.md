@@ -15,9 +15,7 @@ To fully replicate the pipeline, you'll need the following accounts and API toke
 - **Sampling_based_on_SemEval.ipynb**: Initial pre-sampling of news pairs from the SemEval22 Task8 Challenge in Russian, English, and Polish.
 - **Searching_for_news.ipynb**: Scraping news from Google News and summarizing them.
 - **Acceptance_rejection_script.ipynb**: Automated LLM-based quality control for the crowdsourcing solution.
-- **Gather, anonymize & analyze dataset.ipynb**: Provides statistics for the dataset along with embedding-based and prompting-based benchmarking.
-- **training_project_config.json**: Configuration file for the training project on the Toloka platform.
-- **main_project_config.json**: Configuration file for the main project on the Toloka platform.
+- **main_project_config.json**: Configuration file for the main crowdsourcing project.
 - **crossnews-ua.cs**: the final dataset.
 
 ## Dataset Description
